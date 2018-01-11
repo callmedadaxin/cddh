@@ -1,67 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-  <style>
-    *{margin: 0;padding: 0;}
-    html,body{
-      height: 100%;
-    }
-    #iframe{
-      display: block;
-      margin: 0 auto;
-      height: 80%;
-      width: 80%;
-    }
-    #res{
-      margin-top: 20px;
-      height: 80px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    #start{
-      width: 100px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      border: 1px solid skyblue;
-      margin-bottom: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CDDH-搜题器</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
+
 <body>
-  <div id="res">
-    <button id="start">点击开始</button>
-    <div id="desc"></div>
-  </div>
-  <iframe src="https://www.baidu.com" id="iframe" frameborder="0"></iframe>
-  <script>
-    var baseUrl = 'https://www.baidu.com/s?wd='
-    function search() {
-      $.get('/query', function (res) {
-        if (res.code === 0) {
-          var options = JSON.parse(res.options).map(item => {
-            return item.trim()
-          })
-          $('#desc').text('问题已经进行搜索！')
-          $('#iframe').attr('src', `${baseUrl}${res.desc} ${options[0]} ${options[1]} ${options[2]}`)
-        } else {
-          $('#desc').text('正在等待问题...')
-        }
-      })
-    }
-    function startGet() {
-      window.timer = setInterval(search, 1000)
-      $(this).text('正在查询问题..').unbind().click(function () {
-        clearInterval(window.timer)
-        $(this).click(startGet).text('点击开始！')
-      })
-    }
-    $('#start').click(startGet)
-  </script>
+    <div id="app" class="app-container">
+        <section class="left-side">
+            <div class="action-wrapper">
+                <button class="btn-start" @click="start">{{startBtnText}}</button>
+                <div id="tip">{{startTip}}</div>
+            </div>
+            <div class="question" v-if="question.title.length > 0">
+                <div class="title">{{question.title}}</div>
+                <ol class="options">
+                    <li class="option">{{question.options[0]}}</li>
+                    <li class="option">{{question.options[1]}}</li>
+                    <li class="option">{{question.options[2]}}</li>
+                </ol>
+            </div>
+            <div class="charts-wrapper">
+                <div class="sogou-chart-wrapper">
+                    <div id="sogou-chart" class="sogou-chart"></div>
+                </div>
+                <div class="qh360-chart-wrapper">
+                    <div id="qh360-chart" class="qh360-chart"></div>
+                </div>
+            </div>
+        </section>
+        <section class="right-side">
+            <iframe :src="iframe" class="iframe" frameborder="0"></iframe>
+        </section>
+    </div>
+
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/echarts.min.js"></script>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/app.js"></script>
 </body>
+
 </html>
