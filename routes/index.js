@@ -145,6 +145,7 @@ function getQuestion() {
             if (err) {
                 resolve(false)
             }
+            console.log(body)
             try {
                 ret = JSON.parse(body)
             } catch(e) {
