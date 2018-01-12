@@ -144,7 +144,23 @@ function getQuestion() {
             if (err) {
                 resolve(false)
             }
-            const ret = JSON.parse(body)
+            let ret = {
+                code: 0,
+                msg: 'no data'
+            }
+            try {
+                ret = JSON.parse(body)
+            } catch (error) {
+                ret = {
+                    code: 0,
+                    msg: "成功",
+                    data: {
+                        event: {
+                            desc: ''
+                        }
+                    }
+                }
+            }
             if (ret.msg === 'no data') {
                 resolve(json)
             } else {
