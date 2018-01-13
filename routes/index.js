@@ -141,14 +141,19 @@ let search = function (searchUrl, question, option, callback) {
 function getQuestion() {
     return new Promise((resolve, reject) => {
         request(baseUrl, (err, res, body) => {
-            let ret
+            let ret = {
+                code: 0,
+                msg: "成功",
+                data: {
+                    event: {}
+                }
+            }
             if (err) {
                 resolve(false)
             }
-            console.log(body)
             try {
                 ret = JSON.parse(body)
-            } catch(e) {
+            } catch (e) {
                 resolve(false)
             }
             if (ret.msg === 'no data') {
