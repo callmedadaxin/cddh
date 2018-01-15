@@ -156,7 +156,7 @@ function getQuestion() {
             } catch (e) {
                 resolve(false)
             }
-            if (ret.msg === 'no data') {
+            if (ret.msg.trim() === 'no data') {
                 resolve(json)
             } else {
                 resolve(ret)
